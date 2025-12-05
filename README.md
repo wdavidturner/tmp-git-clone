@@ -101,11 +101,11 @@ The tool provides a clean, boxed output with real-time progress:
 ╰────────────────────────────────────────────────╯
 ```
 
-## Claude Code Integration
+## AI Coding Assistant Integration
 
-This tool pairs well with [Claude Code](https://claude.ai/claude-code). A slash command example is included to clone repos and automatically explore them.
+This tool pairs well with AI coding assistants. Slash commands are included for both Claude Code and Codex.
 
-### Installing the Slash Command
+### Claude Code
 
 Copy the included command to your Claude commands directory:
 
@@ -113,7 +113,7 @@ Copy the included command to your Claude commands directory:
 cp clone-git-repo.md ~/.claude/commands/
 ```
 
-### Auto-Approve Permissions (Optional)
+**Auto-Approve Permissions (Optional)**
 
 To skip permission prompts, add this to your `~/.claude/settings.json`:
 
@@ -129,17 +129,29 @@ To skip permission prompts, add this to your `~/.claude/settings.json`:
 }
 ```
 
-This allows Claude to clone repos, search files, and read files without prompting.
-
-### Using the Slash Command
-
-Once installed, use it in Claude Code:
+**Usage:**
 
 ```
-/clone-git-repo https://github.com/rails/rails
+/clone-git-repo rails/rails
 ```
 
-This will:
+### Codex (OpenAI)
+
+Copy the included command to your Codex commands directory:
+
+```bash
+cp codex-clone-git-repo.md ~/.codex/commands/clone-git-repo.md
+```
+
+**Usage:**
+
+```
+/clone-git-repo rails/rails
+```
+
+---
+
+Both commands will:
 1. Clone the repository
 2. Read the README
 3. Show the directory structure
