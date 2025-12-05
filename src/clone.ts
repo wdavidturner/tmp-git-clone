@@ -4,10 +4,12 @@ import { parseGitUrl, type ParsedGitUrl } from "./url-parser.js";
 import { getClonePath, ensureParentDir, removeIfExists } from "./utils.js";
 import { createUI, type UI } from "./ui.js";
 import { parseGitProgress, formatProgress } from "./git-progress.js";
+import { addToHistory } from "./history.js";
 
 export interface CloneOptions {
   verbose?: boolean;
   depth?: number;
+  branch?: string;
 }
 
 export interface CloneResult {
@@ -24,10 +26,17 @@ function executeGitClone(
   url: string,
   targetPath: string,
   depth: number,
+  branch: string | undefined,
   spinner: Spinner | null
 ): Promise<string | null> {
   return new Promise((resolve, reject) => {
-    const args = ["clone", "--depth", String(depth), "--progress", url, targetPath];
+    const args = ["clone", "--depth", String(depth), "--progress"];
+
+    if (branch) {
+      args.push("--branch", branch);
+    }
+
+    args.push(url, targetPath);
 
     const gitProcess = spawn("git", args, {
       stdio: ["ignore", "ignore", "pipe"],
@@ -77,7 +86,7 @@ export async function cloneRepository(
   url: string,
   options: CloneOptions = {}
 ): Promise<CloneResult> {
-  const { verbose = true, depth = 1 } = options;
+  const { verbose = true, depth = 1, branch } = options;
   const ui = createUI(verbose);
 
   // Parse the URL
@@ -112,12 +121,15 @@ export async function cloneRepository(
   const spinner = ui?.startSpinner("Cloning...") ?? null;
 
   try {
-    await executeGitClone(url, targetPath, depth, spinner);
+    await executeGitClone(url, targetPath, depth, branch, spinner);
 
     if (spinner) {
       ui?.spinnerSuccess(spinner);
     }
     ui?.showResult(true, targetPath);
+
+    // Track in history
+    addToHistory(url, targetPath);
 
     return {
       success: true,

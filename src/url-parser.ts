@@ -6,6 +6,35 @@ export interface ParsedGitUrl {
 }
 
 /**
+ * Expand GitHub shorthand (owner/repo) to full URL.
+ * Returns the input unchanged if it's already a full URL.
+ */
+export function expandShorthand(input: string): string {
+  const trimmed = input.trim();
+
+  // If it looks like a URL, return as-is
+  if (
+    trimmed.startsWith("http://") ||
+    trimmed.startsWith("https://") ||
+    trimmed.startsWith("git@") ||
+    trimmed.startsWith("git://")
+  ) {
+    return trimmed;
+  }
+
+  // Check for owner/repo pattern
+  const shorthandPattern = /^([a-zA-Z0-9_.-]+)\/([a-zA-Z0-9_.-]+)$/;
+  const match = trimmed.match(shorthandPattern);
+
+  if (match) {
+    return `https://github.com/${match[1]}/${match[2]}`;
+  }
+
+  // Return as-is and let parseGitUrl handle validation
+  return trimmed;
+}
+
+/**
  * Parse a Git URL and extract repository information.
  * Supports HTTPS, SSH, and git:// protocols.
  */

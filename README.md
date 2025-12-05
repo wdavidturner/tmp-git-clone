@@ -4,11 +4,16 @@ A visually polished CLI tool for quickly cloning git repositories to `/tmp` for 
 
 ## Features
 
+- **GitHub shorthand** - `rails/rails` expands to `https://github.com/rails/rails`
 - **Shallow clone** (`--depth 1`) for fast downloads
+- **Branch support** - clone specific branches with `-b`
 - **Organized storage** at `/tmp/tmp-git-clone/{owner}/{repo}`
 - **Beautiful UI** with animated spinners and progress tracking
 - **Real-time progress** parsing (Counting → Compressing → Receiving)
 - **Auto-cleanup** - re-cloning removes existing directory first
+- **Copy to clipboard** - automatically copy the cloned path
+- **Clone history** - track recently cloned repositories
+- **Config file** - set default behaviors
 - **Quiet mode** for scripting
 
 ## Installation
@@ -29,17 +34,26 @@ npm link
 ## Usage
 
 ```bash
-# Clone a repository
+# Clone using GitHub shorthand
+tmp-git-clone rails/rails
+
+# Clone a repository with full URL
 tmp-git-clone https://github.com/rails/rails
 
 # SSH URLs work too
 tmp-git-clone git@github.com:rails/rails.git
 
+# Clone a specific branch
+tmp-git-clone -b 7-2-stable rails/rails
+
 # Custom clone depth
-tmp-git-clone --depth 10 https://github.com/rails/rails
+tmp-git-clone --depth 10 rails/rails
+
+# Copy path to clipboard after clone
+tmp-git-clone -c rails/rails
 
 # Quiet mode (outputs only the path)
-tmp-git-clone -q https://github.com/rails/rails
+tmp-git-clone -q rails/rails
 ```
 
 ## Output
@@ -114,9 +128,66 @@ This will:
 | Option | Description |
 |--------|-------------|
 | `-d, --depth <n>` | Clone depth (default: 1) |
+| `-b, --branch <name>` | Branch to clone |
+| `-c, --copy` | Copy path to clipboard after clone |
 | `-q, --quiet` | Suppress output, print only the cloned path |
 | `-V, --version` | Show version number |
 | `-h, --help` | Show help |
+
+## Commands
+
+| Command | Description |
+|---------|-------------|
+| `tmp-git-clone list` | List all cloned repositories in `/tmp/tmp-git-clone` |
+| `tmp-git-clone clean` | Remove all cloned repositories (use `--yes` to skip confirmation) |
+| `tmp-git-clone history` | Show clone history (use `--clear` to clear) |
+| `tmp-git-clone config` | Show current configuration |
+
+### Examples
+
+```bash
+# List all clones
+tmp-git-clone list
+
+# Clean all clones (with confirmation)
+tmp-git-clone clean
+
+# Clean all clones (skip confirmation)
+tmp-git-clone clean --yes
+
+# Show clone history
+tmp-git-clone history
+
+# Clear clone history
+tmp-git-clone history --clear
+
+# Show config
+tmp-git-clone config
+```
+
+## Configuration
+
+Configuration is stored at `~/.tmp-git-clone/config.json`. Create this file to set default behaviors:
+
+```json
+{
+  "copy": true,
+  "depth": 1,
+  "defaultBranch": null
+}
+```
+
+| Setting | Type | Description |
+|---------|------|-------------|
+| `copy` | boolean | Always copy path to clipboard after clone |
+| `depth` | number | Default clone depth |
+| `defaultBranch` | string \| null | Default branch to clone |
+
+CLI flags always override config file settings.
+
+## History
+
+Clone history is stored at `~/.tmp-git-clone/history.json`. The tool tracks the last 50 cloned repositories with timestamps.
 
 ## Why `/tmp`?
 
