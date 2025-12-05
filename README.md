@@ -18,6 +18,22 @@ A visually polished CLI tool for quickly cloning git repositories to `/tmp` for 
 
 ## Installation
 
+### Quick Install
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/wdavidturner/tmp-git-clone/main/install.sh | bash
+```
+
+This installs to `~/.local/share/tmp-git-clone` and creates a symlink at `~/.local/bin/tmp-git-clone`.
+
+Make sure `~/.local/bin` is in your PATH:
+
+```bash
+export PATH="$HOME/.local/bin:$PATH"
+```
+
+### Manual Install
+
 ```bash
 # Clone this repo
 git clone https://github.com/wdavidturner/tmp-git-clone.git
@@ -29,6 +45,12 @@ npm run build
 
 # Link globally
 npm link
+```
+
+### Uninstall
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/wdavidturner/tmp-git-clone/main/uninstall.sh | bash
 ```
 
 ## Usage
