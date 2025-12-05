@@ -164,6 +164,7 @@ This will:
 | `tmp-git-clone clean` | Remove all cloned repositories (use `--yes` to skip confirmation) |
 | `tmp-git-clone history` | Show clone history (use `--clear` to clear) |
 | `tmp-git-clone config` | Show current configuration |
+| `tmp-git-clone upgrade` | Upgrade to the latest version |
 
 ### Examples
 
@@ -185,6 +186,9 @@ tmp-git-clone history --clear
 
 # Show config
 tmp-git-clone config
+
+# Upgrade to latest version
+tmp-git-clone upgrade
 ```
 
 ## Configuration

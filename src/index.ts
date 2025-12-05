@@ -7,6 +7,7 @@ import { checkGitInstalled, BASE_DIR } from "./utils.js";
 import { loadConfig, printConfig } from "./config.js";
 import { printHistory, clearHistory } from "./history.js";
 import { copyToClipboard } from "./clipboard.js";
+import { upgrade } from "./upgrade.js";
 
 const program = new Command();
 
@@ -158,6 +159,14 @@ program
   .description("Show current configuration")
   .action(() => {
     printConfig();
+  });
+
+// Upgrade subcommand
+program
+  .command("upgrade")
+  .description("Upgrade to the latest version")
+  .action(async () => {
+    await upgrade();
   });
 
 program.parse();
