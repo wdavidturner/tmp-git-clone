@@ -103,14 +103,14 @@ The tool provides a clean, boxed output with real-time progress:
 
 ## AI Coding Assistant Integration
 
-This tool pairs well with AI coding assistants. Slash commands are included for both Claude Code and Codex.
+This tool pairs well with AI coding assistants. Slash commands are included for Claude Code, Codex, and GitHub Copilot.
 
 ### Claude Code
 
 Copy the included command to your Claude commands directory:
 
 ```bash
-cp clone-git-repo.md ~/.claude/commands/
+cp claude-clone-git-repo.md ~/.claude/commands/clone-git-repo.md
 ```
 
 **Auto-Approve Permissions (Optional)**
@@ -149,9 +149,26 @@ cp codex-clone-git-repo.md ~/.codex/commands/clone-git-repo.md
 /clone-git-repo rails/rails
 ```
 
+### GitHub Copilot
+
+For Copilot Chat in VS Code, add the instructions to your workspace settings or use as a custom instruction:
+
+```bash
+# View the prompt template
+cat copilot-clone-git-repo.md
+```
+
+Then in Copilot Chat, you can reference it or paste the instructions into your custom instructions settings.
+
+**Usage in Copilot Chat:**
+
+```
+Clone and explore rails/rails using tmp-git-clone
+```
+
 ---
 
-Both commands will:
+All commands will:
 1. Clone the repository
 2. Read the README
 3. Show the directory structure
